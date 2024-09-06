@@ -5,14 +5,16 @@ import { useAuth } from '../Auth/AuthContext';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useNavigation } from '@react-navigation/native';
 
 
 const Header = () => {
 
     const { user, logout } = useAuth();
+    const navigation = useNavigation();
 
     const handleProfile = () => {
-
+        //
     };
 
     const handleLogout = async () => {
@@ -30,12 +32,12 @@ const Header = () => {
             <View className='rounded-full'>
                 <Menu>
                     <MenuTrigger>
-                        <Image source={{ uri: user.profileUrl }} style={{ height: hp(6), width: wp(10), borderRadius: 100, aspectRatio: 1 }} />
+                        <Image source={{uri: user.profileUrl}} style={{ height: hp(6), width: wp(10), borderRadius: 100, aspectRatio: 1, position: 'relative'}} />
                     </MenuTrigger>
 
                     <MenuOptions onSelect={() => action(value)} customStyles={{optionsContainer:{borderRadius:20, elevation: 10,marginTop: 40, marginLeft: -5}}}>
 
-                        <MenuOption value={null} action={handleProfile} style={{ height: hp(7), justifyContent: 'center', }}>
+                        <MenuOption value={null} onSelect={handleProfile} style={{ height: hp(7), justifyContent: 'center', }}>
                             <View className=' flex-row justify-between px-2'>
                                 <Text className='text-black'>Profile</Text>
                                 <Ionicons name='person-outline' size={30} color={'gray'} />
@@ -44,7 +46,7 @@ const Header = () => {
 
                         <View className='w-full bg-slate-200 h-0.5 '></View>
 
-                        <MenuOption value={null} action={handleLogout} style={{ height: hp(7), justifyContent: 'center' }}>
+                        <MenuOption value={null} onSelect={handleLogout} style={{ height: hp(7), justifyContent: 'center' }}>
                             <View className=' flex-row justify-between px-2'>
                                 <Text className='text-black'>Signout</Text>
                                 <AntDesign name='logout' size={30} color={'gray'} />

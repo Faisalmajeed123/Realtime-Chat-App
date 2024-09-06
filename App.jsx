@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Signin from './src/Screens/Signin';
@@ -10,16 +10,15 @@ import { AuthContext, Authcontextprovider, useAuth } from './src/Auth/AuthContex
 import Home from './src/Screens/Home';
 import Header from './src/Components/Header';
 import { MenuProvider } from 'react-native-popup-menu';
-
+import ChatRoom from './src/Components/ChatRoom';
+import ChatRoomHeader from './src/Components/ChatRoomHeader';
 
 
 const Stack = createNativeStackNavigator()
 
-
 const App = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const navigation = useNavigation();
-
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -29,18 +28,19 @@ const App = () => {
     }
   }, [isAuthenticated])
 
+  console.warn = () => {};
 
-
+  
   return (
     <Stack.Navigator initialRouteName='signup'>
       <Stack.Screen name='signin' component={Signin} options={{ headerShown: false }} />
       <Stack.Screen name='signup' component={Signup} options={{ headerShown: false }} />
       <Stack.Screen name='header' component={Header} options={{ headerShown: false }} />
+      <Stack.Screen name='chatroom' component={ChatRoom} options={{ headerShown: false }}/>
       <Stack.Screen name='home' component={Home} options={{ header: () => <Header /> }} />
     </Stack.Navigator>
   )
 }
-
 
 const MainApp = () => {
   return (
