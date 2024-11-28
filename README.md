@@ -31,4 +31,4 @@ For questions or support:
 
 Join the conversation and redefine communication with Real-Time Chat App! 🚀
 
-[Demo](./src/Assets/video.gif)
+![Demo](./src/Assets/video.gif)
