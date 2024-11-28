@@ -24,11 +24,11 @@ Install Dependencies:
 Preview:
 Use Android/iOS simulators or a physical device with Expo Go to test the app.
 
-![Demo](./src/Assets/video.gif)
-
 📧 Contact
 For questions or support:
 -Email: faisalmajeed.dev@gmail.com
 -Twitter: @Faisal364442
 
 Join the conversation and redefine communication with Real-Time Chat App! 🚀
+
+[Demo](./src/Assets/video.gif)
