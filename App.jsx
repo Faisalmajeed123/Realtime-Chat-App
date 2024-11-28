@@ -1,46 +1,72 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect } from 'react'
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import Signin from './src/Screens/Signin';
 import Signup from './src/Screens/Signup';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer, StackActions, useNavigation } from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  NavigationContainer,
+  StackActions,
+  useNavigation,
+} from '@react-navigation/native';
 import Loading from './src/Components/Loading';
-import { AuthContext, Authcontextprovider, useAuth } from './src/Auth/AuthContext';
+import {
+  AuthContext,
+  Authcontextprovider,
+  useAuth,
+} from './src/Auth/AuthContext';
 import Home from './src/Screens/Home';
 import Header from './src/Components/Header';
-import { MenuProvider } from 'react-native-popup-menu';
+import {MenuProvider} from 'react-native-popup-menu';
 import ChatRoom from './src/Components/ChatRoom';
-import ChatRoomHeader from './src/Components/ChatRoomHeader';
 
-
-const Stack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const { isAuthenticated, user } = useAuth();
+  const {isAuthenticated, user} = useAuth();
   const navigation = useNavigation();
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigation.dispatch(StackActions.replace('home'))
+      navigation.dispatch(StackActions.replace('home'));
     } else {
-      navigation.dispatch(StackActions.replace('signin'))
+      navigation.dispatch(StackActions.replace('signin'));
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated]);
 
-  console.warn = () => {};
-
-  
   return (
-    <Stack.Navigator initialRouteName='signup'>
-      <Stack.Screen name='signin' component={Signin} options={{ headerShown: false }} />
-      <Stack.Screen name='signup' component={Signup} options={{ headerShown: false }} />
-      <Stack.Screen name='header' component={Header} options={{ headerShown: false }} />
-      <Stack.Screen name='chatroom' component={ChatRoom} options={{ headerShown: false }}/>
-      <Stack.Screen name='home' component={Home} options={{ header: () => <Header /> }} />
+    <Stack.Navigator initialRouteName="signup">
+      <Stack.Screen
+        name="signin"
+        component={Signin}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="signup"
+        component={Signup}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="header"
+        component={Header}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="chatroom"
+        component={ChatRoom}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="home"
+        component={Home}
+        options={{header: () => <Header />}}
+      />
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 const MainApp = () => {
   return (
@@ -51,8 +77,8 @@ const MainApp = () => {
         </NavigationContainer>
       </Authcontextprovider>
     </MenuProvider>
-  )
-}
-export default MainApp
+  );
+};
+export default MainApp;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

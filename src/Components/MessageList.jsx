@@ -1,24 +1,26 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import MessageItem from './MessageItem'
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import MessageItem from './MessageItem';
 
-const MessageList = ({ messages, scrollViewRef, currentUser}) => {
-
-  console.warn = () => {};
-
+const MessageList = ({messages, scrollViewRef, currentUser}) => {
   return (
-    <ScrollView ref = {scrollViewRef} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingTop: 10 }} >
-      {
-        messages.map((message ,index)=> {
-          return ( 
-            <MessageItem message= {message} key={index} currentUser={currentUser}/>
-          )
-        })
-      }
+    <ScrollView
+      ref={scrollViewRef}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{paddingTop: 10}}>
+      {messages.map((message, index) => {
+        return (
+          <MessageItem
+            message={message}
+            key={index}
+            currentUser={currentUser}
+          />
+        );
+      })}
     </ScrollView>
-  )
-}
+  );
+};
 
-export default MessageList
+export default MessageList;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

@@ -1,21 +1,41 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Alert, Animated, Keyboard } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
-import { useRoute } from '@react-navigation/native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  Animated,
+  Keyboard,
+} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {useRoute} from '@react-navigation/native';
 import ChatRoomHeader from './ChatRoomHeader';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import MessageList from './MessageList';
 import Feather from 'react-native-vector-icons/Feather';
-import { useAuth } from '../Auth/AuthContext';
-import { getRoomId } from '../utilis/common';
-import { addDoc, collection, doc, onSnapshot, orderBy, query, setDoc, Timestamp } from 'firebase/firestore';
-import { db, userRef } from '../../firebaseConfig';
-
-
+import {useAuth} from '../Auth/AuthContext';
+import {getRoomId} from '../utilis/common';
+import {
+  addDoc,
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  setDoc,
+  Timestamp,
+} from 'firebase/firestore';
+import {db, userRef} from '../../firebaseConfig';
 
 const ChatRoom = () => {
-  const { user } = useAuth();
+  const {user} = useAuth();
   const route = useRoute();
-  const { item } = route.params;
+  const {item} = route.params;
   const [messages, setMessages] = useState([]);
   const textRef = useRef('');
   const inputRef = useRef(null);
@@ -29,39 +49,40 @@ const ChatRoom = () => {
     const messagesRef = collection(docRef, 'messages');
     const q = query(messagesRef, orderBy('createdAt', 'asc'));
 
-    let unsub = onSnapshot(q, (snapshot) => {
+    let unsub = onSnapshot(q, snapshot => {
       let allMessages = snapshot.docs.map(doc => {
         return doc.data();
       });
-      setMessages([...allMessages])
+      setMessages([...allMessages]);
     });
 
-    const KeyboardDidShowListener = Keyboard.addListener('keyboardDidShow', updateScrollView)
+    const KeyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      updateScrollView,
+    );
 
     return () => {
       unsub();
-      KeyboardDidShowListener.remove()
-    }
-
+      KeyboardDidShowListener.remove();
+    };
   }, []);
 
   useEffect(() => {
     updateScrollView();
-  }, [])
+  }, []);
 
   const updateScrollView = () => {
     setTimeout(() => {
-      scrollViewRef?.current?.scrollToEnd({ animated: true })
-    }, 100)
-  }
-
+      scrollViewRef?.current?.scrollToEnd({animated: true});
+    }, 100);
+  };
 
   const createRoomIfNotExists = async () => {
     let roomId = getRoomId(user?.userId, item?.userId);
     await setDoc(doc(db, 'rooms', roomId), {
       roomId,
-      createdAt: Timestamp.fromDate(new Date())
-    })
+      createdAt: Timestamp.fromDate(new Date()),
+    });
   };
 
   const handleSendMessage = async () => {
@@ -78,50 +99,51 @@ const ChatRoom = () => {
         text: message,
         profileUrl: user?.profileUrl,
         senderName: user?.username,
-        createdAt: Timestamp.fromDate(new Date())
+        createdAt: Timestamp.fromDate(new Date()),
       });
 
-      console.log('new message id: ', newDoc.id)
+      console.log('new message id: ', newDoc.id);
     } catch (error) {
-      Alert.alert('Message', error.message)
+      Alert.alert('Message', error.message);
     }
   };
 
-
   return (
-    <View className='flex-1 bg-white'>
+    <View className="flex-1 bg-white">
       <ChatRoomHeader user={item} />
-      <View className='flex-1 justify-between overflow-visible'>
-        <View className='flex-1'>
-          <MessageList messages={messages} currentUser={user} scrollViewRef={scrollViewRef} />
+      <View className="flex-1 justify-between overflow-visible">
+        <View className="flex-1">
+          <MessageList
+            messages={messages}
+            currentUser={user}
+            scrollViewRef={scrollViewRef}
+          />
         </View>
       </View>
 
-      <View style={{ marginBottom: hp(1.7) }} className='pt-2'>
-        <View className='flex-row justify-between items-center mx-3'>
-          <View className='flex-row justify-between bg-white border p-2 border-neutral-300 rounded-full pl-5'>
+      <View style={{marginBottom: hp(1.7)}} className="pt-2">
+        <View className="flex-row justify-between items-center mx-3">
+          <View className="flex-row justify-between bg-white border p-2 border-neutral-300 rounded-full pl-5">
             <TextInput
               ref={inputRef}
-              placeholder='Type Message...'
+              placeholder="Type Message..."
               placeholderTextColor={'gray'}
-              onChangeText={value => textRef.current = value}
-              style={{ fontSize: hp(2) }}
-              className=' flex-1 mr-2 text-black'
+              onChangeText={value => (textRef.current = value)}
+              style={{fontSize: hp(2)}}
+              className=" flex-1 mr-2 text-black"
             />
-            <TouchableOpacity onPress={handleSendMessage} className='bg-neutral-200 p-2 mr-[1px] rounded-full'>
-              <Feather name='send' size={30} color={'gray'} />
+            <TouchableOpacity
+              onPress={handleSendMessage}
+              className="bg-neutral-200 p-2 mr-[1px] rounded-full">
+              <Feather name="send" size={30} color={'gray'} />
             </TouchableOpacity>
           </View>
-
         </View>
       </View>
-
     </View>
-  )
-}
+  );
+};
 
-export default ChatRoom
+export default ChatRoom;
 
-const styles = StyleSheet.create({})
-
-
+const styles = StyleSheet.create({});
